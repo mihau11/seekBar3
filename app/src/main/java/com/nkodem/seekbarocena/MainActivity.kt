@@ -9,6 +9,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import com.nkodem.seekbarocena.databinding.ActivityMainBinding
+import java.lang.StrictMath.round
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val poziomy = arrayListOf<SeekBar>(findViewById(R.id.sb1poziom),
             findViewById(R.id.sb2poziom),
             findViewById(R.id.sb3poziom))
-        val obrazki = arrayListOf<ImageView>(binding.imageView6)
+        val obrazki = arrayListOf<ImageView>(binding.imageView6,binding.imageView7,binding.imageView10)
 
         for (x in 0..2) {
             piony[x].progress = 100
@@ -37,7 +38,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     findViewById<ProgressBar>(R.id.progressBar2).progress = licznik2 / 3
                     findViewById<TextView>(R.id.textView).setText((licznik2/3).toString())
-
+                    var wys=252*progress/100
+                    obrazki[x].getLayoutParams().height =wys
+                    obrazki[x].requestLayout()
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -54,9 +57,9 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-            for (x in poziomy) {
-                x.progress = 100
-                x.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            for (x in 0..2) {
+                poziomy[x].progress = 100
+                poziomy[x].setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                         var licznik = 0
                         for (y in poziomy) {
@@ -64,6 +67,9 @@ class MainActivity : AppCompatActivity() {
                         }
                         findViewById<ProgressBar>(R.id.progressBar).progress = licznik / 3
                         findViewById<TextView>(R.id.progtext).setText((licznik/3).toString())
+                        var wys=181*progress/100
+                        obrazki[x].getLayoutParams().width =wys
+                        obrazki[x].requestLayout()
                     }
 
                     override fun onStartTrackingTouch(seekBar: SeekBar) {
