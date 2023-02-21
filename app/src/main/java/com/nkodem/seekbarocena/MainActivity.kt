@@ -16,16 +16,6 @@ import java.lang.StrictMath.round
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     @SuppressLint("MissingInflatedId")
-    fun resizePhotoW(bitmap: Bitmap,prog:Int,dom:Int): Bitmap {
-        var newW=prog*100.1
-        val b = Bitmap.createScaledBitmap(bitmap, round(newW).toInt(),bitmap.height, true)
-        return b
-    }
-    fun resizePhotoH(bitmap: Bitmap,prog:Int,dom:Int): Bitmap {
-        var newH=prog*100.1
-        val b = Bitmap.createScaledBitmap(bitmap,bitmap.width,round(newH).toInt(),true)
-        return b
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,8 +26,6 @@ class MainActivity : AppCompatActivity() {
         val piony = arrayListOf(binding.sb1pion,binding.sb2pion,binding.sb3pion)
         val poziomy = arrayListOf(binding.sb1poziom,binding.sb2poziom,binding.sb3poziom)
         val obrazki = arrayListOf(binding.imageView6,binding.imageView7,binding.imageView10)
-        val domWys = 1
-        val domSze = 662
 
         for (x in 0..2) {
             piony[x].progress = 100
@@ -48,8 +36,7 @@ class MainActivity : AppCompatActivity() {
                     for (y in piony){ licznik2 += y.progress}
                     binding.progressBar2.progress = licznik2 / 3
                     binding.textView.setText((licznik2/3).toString())
-
-                    obrazki[x].setImageBitmap(resizePhotoH(obrazki[x].drawToBitmap(),progress,domWys))
+                    obrazki[x].scaleY=progress/100f
                 }
                 override fun onStartTrackingTouch(seekBar: SeekBar) {
                     // Write code to perform some action when touch is started.
@@ -73,8 +60,7 @@ class MainActivity : AppCompatActivity() {
                         for (y in poziomy){licznik += y.progress}
                         binding.progressBar.progress = licznik / 3
                         binding.progtext.setText((licznik/3).toString())
-
-                        obrazki[x].setImageBitmap(resizePhotoW(obrazki[x].drawToBitmap(),progress,domSze))
+                        obrazki[x].scaleX = progress/100f
                     }
                     override fun onStartTrackingTouch(seekBar: SeekBar) {
                         // Write code to perform some action when touch is started.
